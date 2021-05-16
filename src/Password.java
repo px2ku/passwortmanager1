@@ -24,7 +24,6 @@ public class Password {
     }
 
 
-
     public static String EncryptSHA256(final String base) {
         // quelle ist stackoverflow
         try {
