@@ -1,3 +1,4 @@
+import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -23,6 +24,7 @@ public class DBModel {
 //wurst
 
     private Connection connection = null;
+    private String salt = "nosalt";
 
     DBModel() {
         try {
@@ -77,9 +79,11 @@ public class DBModel {
         String sql = "INSERT INTO `passwords` (`user_id`, `password`, `url`) VALUES (?,?,?)";
         //"???" Avoiding SQL Injection
         try {
+            Crypto cipher = new Crypto(unencryptedPassword, salt);
             PreparedStatement statement = this.connection.prepareStatement(sql);
             statement.setInt(1, passObj.userId);
-            statement.setString(2, new Crypto(unencryptedPassword, "nosalt").encrypt(passObj.password));
+            System.out.println(cipher.encrypt(passObj.password));
+            statement.setString(2, cipher.encrypt(passObj.password));
             statement.setString(3, passObj.url);
             statement.executeUpdate();
             statement.close();
@@ -104,12 +108,13 @@ public class DBModel {
         }
     }
 
-    public void updatePassword(Password passObj) {
+    public void updatePassword(Password passObj, String unencryptedPassword) {
+        Crypto cipher = new Crypto(unencryptedPassword, salt);
         // Alles, was wir brauchen, befindet sich im selben Password objekt
         String sql = "UPDATE `passwords` SET `password`=?, `url`=? WHERE `id`=?";
         try {
             PreparedStatement statement = this.connection.prepareStatement(sql);
-            statement.setString(1, passObj.password);
+            statement.setString(1, cipher.encrypt(passObj.password));
             statement.setString(2, passObj.url);
             statement.setInt(3, passObj.id);
             statement.executeUpdate();
@@ -124,6 +129,9 @@ public class DBModel {
         ArrayList<Password> passwords = new ArrayList<Password>();
         String sql = "SELECT * FROM `passwords` WHERE `user_id`=?";
         try {
+
+            Crypto cipher = new Crypto(unencryptedPassword, salt);
+
             PreparedStatement statement = this.connection.prepareStatement(sql);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -131,7 +139,8 @@ public class DBModel {
                 Password passObj = new Password();
                 passObj.id       = rs.getInt("id");
                 passObj.userId   = rs.getInt("user_id");
-                passObj.password = new Crypto(unencryptedPassword, "nosalt").decrypt(rs.getString("password"));
+                System.out.println(cipher.decrypt(passObj.password));
+                passObj.password = new Crypto(unencryptedPassword, salt).decrypt(rs.getString("password"));
                 passObj.url      = rs.getString("url");
                 passwords.add(passObj);
             }

@@ -29,7 +29,8 @@ public class Crypto {
         String testSalt = "testsalt";
         try {
             Crypto cipher = new Crypto(testPass, testSalt);
-            System.out.println(cipher.decrypt(cipher.encrypt(test)));
+            Crypto cipher2 = new Crypto(testPass, testSalt);
+            System.out.println(cipher2.decrypt(cipher.encrypt(test)));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class Crypto {
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
         }
-        return null;
+        return "";
     }
 
     public String decrypt(String strToDecrypt) {
@@ -79,6 +80,6 @@ public class Crypto {
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
         }
-        return null;
-    }
+        return "";
+    };
 }

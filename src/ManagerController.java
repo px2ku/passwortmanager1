@@ -73,7 +73,7 @@ public class ManagerController implements Initializable {
         Password selectedPassObj = this.table.getSelectionModel().getSelectedItem();
         selectedPassObj.password = this.password.getText();
         selectedPassObj.url      = this.website.getText();
-        DBModel.GetInstance().updatePassword(selectedPassObj);
+        DBModel.GetInstance().updatePassword(selectedPassObj, masterPassword.getText());
         this.table.refresh();
 
     }
