@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ManagerController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <VBox layoutX="330.0" layoutY="10.0" prefHeight="394.0" prefWidth="319.0" spacing="10.0">
+         <children>
+              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD MANAGER" wrappingWidth="268.13671875">
+                  <font>
+                      <Font name="System Bold Italic" size="24.0" />
+                  </font>
+              </Text>
+      
+              <Label text="Passwort" />
+              <TextField fx:id="password" prefWidth="300.0" />
+              <Label text="Webseite Link" />
+              <TextArea fx:id="website" prefWidth="300.0" VBox.vgrow="ALWAYS" />
+         </children>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </VBox>
+        <TableView fx:id="table" layoutX="10.0" layoutY="10.0" prefHeight="410.0" prefWidth="310.0">
+            <columns>
+                <TableColumn prefWidth="103.33" text="Passwort">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="password" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="206.66" text="Webseite">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="url" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <Button layoutX="10.0" layoutY="430.0" mnemonicParsing="false" onAction="#addItem" prefHeight="40.0" prefWidth="100.0" text="Hinzufügen" />
+        <Button layoutX="115.0" layoutY="430.0" mnemonicParsing="false" onAction="#removeItem" prefHeight="40.0" prefWidth="100.0" text="Löschen" />
+        <Button layoutX="220.0" layoutY="430.0" mnemonicParsing="false" onAction="#editItem" prefHeight="40.0" prefWidth="100.0" text="Bearbeiten" />
+
+        <Label layoutX="330.0" layoutY="408.0" text="Master passwort ändern" />
+        <Button layoutX="540.0" layoutY="430.0" mnemonicParsing="false" onAction="#setMasterPassword" prefHeight="40.0" prefWidth="90.0" text="Ändern" />
+        <TextField fx:id="masterPassword" layoutX="330.0" layoutY="430.0" prefHeight="40.0" prefWidth="200.0" />
+
+    </children>
+</AnchorPane>
